@@ -1,0 +1,50 @@
+{% extends 'a.html' %}
+
+{% block body %}
+
+    <div class="container mt-5">
+        <h1>List of Countries</h1>
+
+        <!-- Search Bar -->
+        <div class="input-group mb-3">
+            <form method="get" action="{% url 'index' %}">
+                <input type="text" class="form-control" placeholder="Search by Country Name" name="q" value="{{ query }}">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary mt-2" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Display countries in a table with columns -->
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    {% for letter in countries_by_letter.keys %}
+                        <th>{{ letter }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for letter, country_list in countries_by_letter.items %}
+                        <td>
+                            <ul>
+                                {% for country in country_list %}
+                                    <li>
+                                        <a href="{% url 'country' country.sov_a3 %}" class="text-primary">{{ country.sov_a3 }}
+                                          
+                                    </a> 
+                                    - {{ country.name }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    {% endblock %}
+
+ 

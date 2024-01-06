@@ -1,0 +1,37 @@
+
+{% load geojson_tags %}
+{% load leaflet_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% leaflet_css %}
+    {% leaflet_js %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <title>Country</title>
+</head>
+<body class="d-flex flex-column h-100 ">
+    <header class="navbar navbar-dark bg-primary">
+    
+        <a href="{% url 'index' %}" class="btn btn-secondary">Back</a>
+    </header>
+    <div class="container-fluid ">
+      
+        <div id="map" style="height: 100vh; width: auto;" class="container-fluid">{% leaflet_map "map" callback="map_init" %}</div>
+    </div>
+
+    <script type="text/javascript">
+        function map_init(map, options) {
+            var area = L.geoJson({{ country.geom|geojsonfeature|safe }}).addTo(map);
+            map.fitBounds(area.getBounds());
+        }
+    </script>
+
+    <!-- Bootstrap JS and Popper.js (you may need to adjust the paths based on your project structure) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>
